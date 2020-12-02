@@ -168,7 +168,7 @@ def creds():
                                     host_file.write('{}\n'.format(rows[0]))
                                     count += 1
                                 print('{} hosts saved to file /tmp/{}'.format(count, random_filename))
-                                dict['host'] = 'file:/tmp/{}'.format(random_filename)
+                                dict['host'][0] = 'file:/tmp/{}'.format(random_filename)
                         else:
                             creds_table = prettytable.from_db_cursor(result)
                             creds_table.align['host'] = 'l'
