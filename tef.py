@@ -97,6 +97,7 @@ def creds():
                         creds_table = prettytable.from_db_cursor(creds)
                         creds_table.align['host'] = 'l'
                         creds_table.max_width = os.get_terminal_size()[0]-60
+                        creds_table[0]
                         print(creds_table)
                         print('No filters set, listing first 100 credentials, type "help creds" for more options')
                         print()
@@ -159,6 +160,7 @@ def creds():
                 with sqlite3.connect(pathlib.Path.home() / '.tef/databases/{}.db'.format(dict['database'])) as connection:
                     with connection as cursor:
                         result = cursor.execute(query, query_list)
+                        
                         if '-R' in flags:
                             count = 0
                             alphanum = string.ascii_letters + string.digits
@@ -167,19 +169,22 @@ def creds():
                                 for rows in result:
                                     host_file.write('{}\n'.format(rows[0]))
                                     count += 1
-                                print('{} hosts saved to file /tmp/{}'.format(count, random_filename))
                                 dict['host'][0] = 'file:/tmp/{}'.format(random_filename)
+                                print('{} hosts saved to file /tmp/{}'.format(count, random_filename))
+                               
+                        
                         else:
                             creds_table = prettytable.from_db_cursor(result)
                             creds_table.align['host'] = 'l'
                             creds_table.max_width = os.get_terminal_size()[0]-60
                             creds_table.sortby = sort
-                            try:
-                                creds_table[0]
-                                print(creds_table)
-                            except:
-                                print('No results found')
-                            
+                            creds_table[0]
+                            print(creds_table)
+    except KeyError:
+        print('{} No module selected'.format(minus()))
+
+    except IndexError as error:
+        print('{} No results found'.format(minus()))                        
     
     except ValueError as error:
         raise ValueError(error)
@@ -211,6 +216,7 @@ def db():
                         db_table.align['host'] = 'l'
                         db_table.align['output'] = 'l'
                         db_table.max_width = os.get_terminal_size()[0]-60
+                        db_table[0]
                         print(db_table)
                         print('No filters set, listing first 100 results, see db -h for more options')
                         print()
@@ -285,19 +291,23 @@ def db():
                                 for rows in result:
                                     host_file.write('{}\n'.format(rows[0]))
                                     count += 1
-                                print('{} hosts saved to file /tmp/{}'.format(count, random_filename))
                                 dict['host'][0] = 'file:/tmp/{}'.format(random_filename)
+                                print('{} hosts saved to file /tmp/{}'.format(count, random_filename))
+                                
                         else:
                             db_table = prettytable.from_db_cursor(result)
                             db_table.align['host'] = 'l'
                             db_table.align['output'] = 'l'
                             db_table.max_width = os.get_terminal_size()[0]-60
                             db_table.sortby = sort
-                            try:
-                                db_table[0]
-                                print(db_table)
-                            except:
-                                print('No results found')
+                            db_table[0]
+                            print(db_table)
+    except KeyError:
+        print('{} No module selected'.format(minus()))
+
+    except IndexError as error:
+        print('{} No results found'.format(minus()))  
+
     except ValueError as error:
         raise ValueError(error)
 
