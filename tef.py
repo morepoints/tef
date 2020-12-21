@@ -593,12 +593,20 @@ def search():
             lib_info = importlib.import_module('modules.' + module)
             search_dict = {**search_dict_base, **lib_info.info()} 
             for search_term in cmd_input[1:]:
-                for key in search_dict:
-                    if search_term.lower() in search_dict[key].lower() and not search_result_duplicate:
+                if ':' in search_term:
+                    key = search_term.split(':')
+                    if key[1].lower() in search_dict[key[0]].lower() and not search_result_duplicate:
                         search_result_duplicate = True
                         module_list.append(module)
                         search_table.add_row([len(module_list), module, search_dict['name']])
                         rows += 1
+                else:
+                    for key in search_dict:
+                        if search_term.lower() in search_dict[key].lower() and not search_result_duplicate:
+                            search_result_duplicate = True
+                            module_list.append(module)
+                            search_table.add_row([len(module_list), module, search_dict['name']])
+                            rows += 1
         if rows > 0:
             print(search_table)
         else:
