@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from ftplib import FTP
 import paramiko
+import tef
 
 def info():
   search_dict = {
@@ -24,7 +25,7 @@ def options():
 
 def run(dict):
   try:
-    print(dict['host'])
+    print(dict)
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     ssh.connect(hostname=dict['host'],port=dict['port'],username=dict['username'],password=dict['password'],timeout=dict['timeout'])
@@ -35,6 +36,7 @@ def run(dict):
     tef.write_creds(dict)
 
   except Exception as error:
-    ssh.close()
     if dict['verbose'].lower() in ['true']:
       print("{} {} : {}".format(tef.minus(),dict['host'], error))
+    ssh.close()
+    
