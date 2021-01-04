@@ -48,7 +48,7 @@ def run(dict):
           else:
             f  = p / Path(dict['file']).name
           if not p.is_dir():
-            p.mkdir()
+            p.mkdir(parents=True)
           download = open(f, 'wb')
           download.write(file.getvalue())
           download.close()
