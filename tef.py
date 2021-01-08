@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 '''
 Commands:
+clear      Clear the terminal buffer
 creds      Display credentials in database
 db         Display database items
 exit       Exit application
@@ -41,6 +42,7 @@ lib = False
 os.chdir(pathlib.Path(__file__).parent)
 # TODO MAKE AUTOCOMPLETE BETTER
 CMD = [
+    'clear',
     'creds',
     'db',
     'exit',
@@ -898,6 +900,9 @@ if __name__ == '__main__':
 
             if not cmd_input:
                 pass
+
+            elif cmd_input[0].lower() in ['clear']:
+                os.system('clear')
 
             elif cmd_input[0].lower() in ['creds']:
                 creds()    
